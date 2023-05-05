@@ -29,7 +29,7 @@ class Node(object):
                 pygame.draw.circle(screen, RED, self.position.asInt(), 12)
 
     def __str__(self):
-        return f"position: {self.position} access {self.access}"
+        return f"node: [position: {self.position} access {self.access}]"
     def __repr__(self):
         return self.__str__()
 
