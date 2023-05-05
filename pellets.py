@@ -7,6 +7,7 @@ class Pellet(object):
     def __init__(self, row, column):
         self.name = PELLET
         self.position = Vector2(column*TILEWIDTH, row*TILEHEIGHT)
+        self.location = Vector2(column, row)
         self.color = WHITE
         self.radius = int(2 * TILEWIDTH / 16)
         self.collideRadius = 2 * TILEWIDTH / 16
@@ -21,9 +22,9 @@ class Pellet(object):
 
     def __str__(self):
         if self.name == PELLET:
-            return f"name: PELLET position: {self.position}"
+            return f"name: PELLET location: {self.location}"
         else:
-            return f"name: POWERPELLET position: {self.position}"
+            return f"name: POWERPELLET location: {self.location}"
 
     def __repr__(self):
         return self.__str__()
