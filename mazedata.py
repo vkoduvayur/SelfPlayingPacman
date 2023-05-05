@@ -40,6 +40,12 @@ class Maze1(MazeBase):
         self.ghostNodeDeny = {UP:((12, 14), (15, 14), (12, 26), (15, 26)), LEFT:(self.addOffset(2, 3),),
                               RIGHT:(self.addOffset(2, 3),)}
 
+    def __str__(self):
+        return f"name: {self.name} portalPairs: {self.portalPairs} homeoffset: {self.homeoffset} homenodeconnectLeft: {self.homenodeconnectLeft} homenodeconnectRight: {self.homenodeconnectRight} pacmanStart: {self.pacmanStart} fruitStart: {self.fruitStart} ghostNodeDeny: {self.ghostNodeDeny}"
+
+    # call __str__ from a list
+    def __repr__(self):
+        return self.__str__()
 
 class Maze2(MazeBase):
     def __init__(self):
