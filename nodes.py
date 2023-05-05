@@ -28,6 +28,10 @@ class Node(object):
                 pygame.draw.line(screen, WHITE, line_start, line_end, 4)
                 pygame.draw.circle(screen, RED, self.position.asInt(), 12)
 
+    def __str__(self):
+        return f"position: {self.position} access {self.access}"
+    def __repr__(self):
+        return self.__str__()
 
 class NodeGroup(object):
     def __init__(self, level):
