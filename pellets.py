@@ -20,7 +20,10 @@ class Pellet(object):
             pygame.draw.circle(screen, self.color, p.asInt(), self.radius)
 
     def __str__(self):
-        return f"name: {self.name} position: {self.position}"
+        if self.name == PELLET:
+            return f"name: PELLET position: {self.position}"
+        else:
+            return f"name: POWERPELLET position: {self.position}"
 
     def __repr__(self):
         return self.__str__()
@@ -41,11 +44,6 @@ class PowerPellet(Pellet):
             self.visible = not self.visible
             self.timer = 0
 
-    def __str__(self):
-        return f"name: {self.name} position: {self.position}"
-
-    def __repr__(self):
-        return self.__str__()
 
 class PelletGroup(object):
     def __init__(self, pelletfile):
