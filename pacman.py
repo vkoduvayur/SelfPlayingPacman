@@ -1,3 +1,5 @@
+import random
+
 import pygame
 from pygame.locals import *
 from vector import Vector2
@@ -48,7 +50,12 @@ class Pacman(Entity):
             if self.oppositeDirection(direction):
                 self.reverseDirection()
 
+    # AI code will be called in here
     def getValidKey(self):
+        option = [UP, DOWN, LEFT, RIGHT]
+        direction = random.randrange(0, 4) # direction = valid index in option list
+        return option[direction]
+        '''
         key_pressed = pygame.key.get_pressed()
         if key_pressed[K_UP]:
             return UP
@@ -59,6 +66,7 @@ class Pacman(Entity):
         if key_pressed[K_RIGHT]:
             return RIGHT
         return STOP  
+        '''
 
     def eatPellets(self, pelletList):
         for pellet in pelletList:
