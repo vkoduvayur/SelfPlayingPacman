@@ -41,7 +41,10 @@ class Maze1(MazeBase):
                               RIGHT:(self.addOffset(2, 3),)}
 
     def __str__(self):
-        return f"name: {self.name} portalPairs: {self.portalPairs} homeoffset: {self.homeoffset} homenodeconnectLeft: {self.homenodeconnectLeft} homenodeconnectRight: {self.homenodeconnectRight} pacmanStart: {self.pacmanStart} fruitStart: {self.fruitStart} ghostNodeDeny: {self.ghostNodeDeny}"
+        return f"name: {self.name} portalPairs: {self.portalPairs} homeoffset:" \
+               f"{self.homeoffset} homenodeconnectLeft: {self.homenodeconnectLeft} " \
+               f"homenodeconnectRight: {self.homenodeconnectRight} pacmanStart: " \
+               f"{self.pacmanStart} fruitStart: {self.fruitStart} ghostNodeDeny: {self.ghostNodeDeny}"
 
     # call __str__ from a list
     def __repr__(self):
@@ -59,12 +62,30 @@ class Maze2(MazeBase):
         self.fruitStart = (11, 20)
         self.ghostNodeDeny = {UP:((9, 14), (18, 14), (11, 23), (16, 23)), LEFT:(self.addOffset(2, 3),),
                               RIGHT:(self.addOffset(2, 3),)}
+    def __str__(self):
+        return f"name: {self.name} portalPairs: {self.portalPairs} homeoffset:" \
+               f"{self.homeoffset} homenodeconnectLeft: {self.homenodeconnectLeft} " \
+               f"homenodeconnectRight: {self.homenodeconnectRight} pacmanStart: " \
+               f"{self.pacmanStart} fruitStart: {self.fruitStart} ghostNodeDeny: {self.ghostNodeDeny}"
+
+    # call __str__ from a list
+    def __repr__(self):
+        return self.__str__()
 
 
 class MazeData(object):
     def __init__(self):
+        # None initialization value
         self.obj = None
         self.mazedict = {0:Maze1, 1:Maze2}
 
     def loadMaze(self, level):
-        self.obj = self.mazedict[level%len(self.mazedict)]()
+        # maze you're currently in loaded in obj
+        self.obj = self.mazedict[level%len(self.mazedict)]() # make sure mazedict receives a valid key index
+
+    def __str__(self):
+        return f"mazedata: [obj: {self.obj} mazedict: {self.mazedict}]"
+
+    # call __str__ from a list
+    def __repr__(self):
+        return self.__str__()
