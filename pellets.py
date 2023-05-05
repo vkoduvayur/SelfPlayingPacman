@@ -19,6 +19,12 @@ class Pellet(object):
             p = self.position + adjust
             pygame.draw.circle(screen, self.color, p.asInt(), self.radius)
 
+    def __str__(self):
+        return f"name: {self.name} position: {self.position}"
+
+    def __repr__(self):
+        return self.__str__()
+
 
 class PowerPellet(Pellet):
     def __init__(self, row, column):
@@ -35,6 +41,11 @@ class PowerPellet(Pellet):
             self.visible = not self.visible
             self.timer = 0
 
+    def __str__(self):
+        return f"name: {self.name} position: {self.position}"
+
+    def __repr__(self):
+        return self.__str__()
 
 class PelletGroup(object):
     def __init__(self, pelletfile):
@@ -69,3 +80,10 @@ class PelletGroup(object):
     def render(self, screen):
         for pellet in self.pelletList:
             pellet.render(screen)
+
+    def __str__(self):
+        return f"pelletList: {self.pelletList}"
+
+    def __repr__(self):
+        return self.__str__()
+
