@@ -62,6 +62,9 @@ class Pacman(Entity):
     def eatPellets(self, pelletList):
         for pellet in pelletList:
             if self.collideCheck(pellet):
+                # remove pellet from space it was eaten from in the node
+                position = pellet.position
+                # find position inside of node dictionary
                 return pellet
         return None    
     

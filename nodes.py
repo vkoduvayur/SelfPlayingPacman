@@ -11,6 +11,9 @@ class Node(object):
                        DOWN:[PACMAN, BLINKY, PINKY, INKY, CLYDE, FRUIT], 
                        LEFT:[PACMAN, BLINKY, PINKY, INKY, CLYDE, FRUIT], 
                        RIGHT:[PACMAN, BLINKY, PINKY, INKY, CLYDE, FRUIT]}
+        self.direction = None # takes note of the direction in which each node comes from
+        self.pellet = None
+        # update in node when pacman eats a pellet
 
     def denyAccess(self, direction, entity):
         if entity.name in self.access[direction]:
@@ -29,7 +32,7 @@ class Node(object):
                 pygame.draw.circle(screen, RED, self.position.asInt(), 12)
 
     def __str__(self):
-        return f"node: [position: {self.position} access {self.access}]"
+        return f"node: [position: {self.position} access {self.access} direction: {self.direction}]"
     def __repr__(self):
         return self.__str__()
 

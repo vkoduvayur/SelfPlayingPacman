@@ -49,6 +49,7 @@ class GameController(object):
         self.mazesprites = MazeSprites(self.mazedata.obj.name+".txt", self.mazedata.obj.name+"_rotation.txt")
         self.setBackground()
         self.nodes = NodeGroup(self.mazedata.obj.name+".txt")
+        print(f"testnode: {self.nodes.nodesLUT[(240, 416)]}")
         self.mazedata.obj.setPortalPairs(self.nodes)
         self.mazedata.obj.connectHomeNodes(self.nodes)
         print(self.mazedata)
