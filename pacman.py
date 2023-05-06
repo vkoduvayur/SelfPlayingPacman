@@ -6,6 +6,7 @@ from vector import Vector2
 from constants import *
 from entity import Entity
 from sprites import PacmanSprites
+from agent import Agent
 
 class Pacman(Entity):
     def __init__(self, node):
@@ -16,6 +17,7 @@ class Pacman(Entity):
         self.setBetweenNodes(LEFT)
         self.alive = True
         self.sprites = PacmanSprites(self)
+        self.agent = Agent()
 
     def reset(self):
         Entity.reset(self)
@@ -53,20 +55,9 @@ class Pacman(Entity):
     # AI code will be called in here
     def getValidKey(self):
         option = [UP, DOWN, LEFT, RIGHT]
-        direction = random.randrange(0, 4) # direction = valid index in option list
+        self.agent.search(self.node)
+        direction = self.agent.transitionStep()
         return option[direction]
-        '''
-        key_pressed = pygame.key.get_pressed()
-        if key_pressed[K_UP]:
-            return UP
-        if key_pressed[K_DOWN]:
-            return DOWN
-        if key_pressed[K_LEFT]:
-            return LEFT
-        if key_pressed[K_RIGHT]:
-            return RIGHT
-        return STOP  
-        '''
 
     def eatPellets(self, pelletList):
         for pellet in pelletList:

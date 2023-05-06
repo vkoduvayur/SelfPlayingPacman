@@ -22,9 +22,9 @@ class Pellet(object):
 
     def __str__(self):
         if self.name == PELLET:
-            return f"name: PELLET location: {self.location}"
+            return f"name: PELLET position: {self.position}"
         else:
-            return f"name: POWERPELLET location: {self.location}"
+            return f"name: POWERPELLET position: {self.position}"
 
     def __repr__(self):
         return self.__str__()
