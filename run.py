@@ -57,6 +57,8 @@ class GameController(object):
         print(f"self.pacman.startNode: {self.pacman.startNode}")
         self.pellets = PelletGroup(self.mazedata.obj.name+".txt")
         print(self.pellets)
+        # Add pellet information to maze nodes
+        self.addPellets(self.pellets.pelletList, self.nodes)
         self.ghosts = GhostGroup(self.nodes.getStartTempNode(), self.pacman)
 
         self.ghosts.pinky.setStartNode(self.nodes.getNodeFromTiles(*self.mazedata.obj.addOffset(2, 3)))
@@ -273,6 +275,14 @@ class GameController(object):
 
         pygame.display.update()
 
+    # adds pellet information to maze nodes
+    def addPellets(self, pelletList, nodes):
+        for node in nodes.nodesLUT:
+            print(f"tile: {nodes.nodesLUT[node]}")
+        for pellet in pelletList:
+            position = pellet.position
+            # nodesLUT position gets nodes, .pellet gets pellet variable for node
+            nodes.nodesLUT[(position.x, position.y)].pellet = pellet.name
 
 if __name__ == "__main__":
     game = GameController()
