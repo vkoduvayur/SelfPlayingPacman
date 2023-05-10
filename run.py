@@ -255,7 +255,7 @@ class GameController(object):
 
     def render(self):
         self.screen.blit(self.background, (0, 0))
-        #self.nodes.render(self.screen)
+        # self.nodes.render(self.screen)
         self.pellets.render(self.screen)
         if self.fruit is not None:
             self.fruit.render(self.screen)
@@ -282,7 +282,7 @@ class GameController(object):
         for pellet in pelletList:
             position = pellet.position
             # nodesLUT position gets nodes, .pellet gets pellet variable for node
-            nodes.nodesLUT[(position.x, position.y)].pellet = pellet.name
+            # nodes.nodesLUT[(position.x, position.y)].pellet = pellet.name
 
 if __name__ == "__main__":
     game = GameController()
