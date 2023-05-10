@@ -3,7 +3,7 @@ import queue
 class Agent():
     def __init__(self):
         self.initial_state = None
-        self.goal_state = None
+        self.goal = None
         self.action_costs = {}
         self.transition_model = [] # path from initial state to goal state
         # holds all nodes Pacman has ever visited
@@ -11,8 +11,6 @@ class Agent():
 
         # Actions are up, down, left, right, which are in constants.py
         # for node to be a goal, we need to know if it contains a pellet
-    def goal(self, node):
-        return False
 
     def search(self, init_state):
         # only conduct a search if the path is empty
@@ -32,18 +30,38 @@ class Agent():
                 # neighbors is a dictionary, direction = key, next = value
                 for direction, next in current.neighbors.items():
                     print(f"next: {next}")
+                    print(f"direction: {direction}")
+                    print(self.visited)
+                    # self.goal = direction
                     # put opposite direction in the next node before putting it into frontier
-                    if next not in reached and next != None and next not in self.visited:
-                        next.direction = -direction
-                        self.transition_model.append(direction)
-                        self.goal = direction
-                        frontier.put(next)
-                        reached.add(next)
-                        break
+                    if next not in reached and next != None:
+                        print("inside if")
+                        if next not in self.visited:
+                            next.direction = -direction
+                            # if direction isn't opposite of previous direction, then add new direction to transition model and goal
+                            #if direction != 0 - self.goal:
+                            self.transition_model.append(direction) # shouldn't be opposite of previous direction
+                            self.goal = direction # shouldn't be opposite of previous direction
+                            frontier.put(next)
+                            reached.add(next)
+                            break
+                        else:
+                            # same as what happens inside if-statement
+                            next.direction = -direction
+                            self.transition_model.append(direction)
+                            self.goal = direction
+                            frontier.put(next)
+                            reached.add(next)
+                            break
+
         return self.transition_model
+
+    def addDirection(self, next, direction, frontier, reached):
+        pass
 
     # retrieve and remove the next step from the transition model
     def transitionStep(self):
+        nextStep = None
         if len(self.transition_model) > 0:
             nextStep = self.transition_model.pop()
         else:

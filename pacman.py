@@ -54,10 +54,9 @@ class Pacman(Entity):
 
     # AI code will be called in here
     def getValidKey(self):
-        option = [UP, DOWN, LEFT, RIGHT]
         self.agent.search(self.node)
         direction = self.agent.transitionStep()
-        return option[direction]
+        return direction
 
     def eatPellets(self, pelletList):
         for pellet in pelletList:
