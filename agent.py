@@ -34,27 +34,27 @@ class Agent():
                     print(self.visited)
                     # self.goal = direction
                     # put opposite direction in the next node before putting it into frontier
-                    if next not in reached and next != None:
+                    if next not in reached and next not in self.visited and next != None:
                         print("inside if")
-                        if next not in self.visited:
-                            next.direction = -direction
-                            # if direction isn't opposite of previous direction, then add new direction to transition model and goal
-                            #if direction != 0 - self.goal:
-                            self.transition_model.append(direction) # shouldn't be opposite of previous direction
-                            self.goal = direction # shouldn't be opposite of previous direction
-                            frontier.put(next)
-                            reached.add(next)
-                            break
-                        else:
-                            # same as what happens inside if-statement
-                            next.direction = -direction
-                            self.transition_model.append(direction)
-                            self.goal = direction
-                            frontier.put(next)
-                            reached.add(next)
-                            break
+                        m_dist = self.ManhattanDistance(current, next)
+                        print(f"Manhattan Distance: {m_dist}")
+                        next.direction = -direction
+                        # if direction isn't opposite of previous direction, then add new direction to transition model and goal
+                        # if direction != 0 - self.goal:
+                        self.transition_model.append(direction)  # shouldn't be opposite of previous direction
+                        self.goal = direction  # shouldn't be opposite of previous direction
+                        frontier.put(next)
+                        reached.add(next)
+                        break
+                    else:
+                        self.goal = direction
 
         return self.transition_model
+
+    # return the distance travelled between two points travelling only vertically and/or horizontally
+    # start and end are of type node
+    def ManhattanDistance(self, start, end):
+        return abs(end.position.x - start.position.x) + abs(end.position.y - start.position.y)
 
     def addDirection(self, next, direction, frontier, reached):
         pass
