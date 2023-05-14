@@ -67,7 +67,26 @@ class Agent():
             path.append(dir)
             current = current.neighbors[came_from[current]] # came_from holds directions, came_from[current] holds direction taken to get to current
         path.reverse() # path from Pacman's position to goal
-        self.f.write(f"path: {path}\n")
+        msg = f"path: {path}\n"
+        msg = self.directions(msg)
+        self.f.write(msg)
+
+    '''STOP = 0
+    UP = 1
+    DOWN = -1
+    LEFT = 2
+    RIGHT = -2
+    PORTAL = 3'''
+    # use string replace function to replace numbers with names of constants
+    def directions(self, msg):
+        # if positive numbers come first, then negative replaced with positive with negative in front
+        # e.g. DOWN -> -UP, RIGHT -> -LEFT
+        msg = msg.replace("-1", "DOWN")
+        msg = msg.replace("1", "UP")
+        msg = msg.replace("-2", "RIGHT")
+        msg = msg.replace("2", "LEFT")
+        msg = msg.replace("3", "PORTAL")
+        return msg
 
     def search(self, init_state):
         now = self.startRecord("search")
