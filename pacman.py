@@ -7,6 +7,7 @@ from constants import *
 from entity import Entity
 from sprites import PacmanSprites
 from agent import Agent
+from nodes import Node
 
 class Pacman(Entity):
     def __init__(self, node):
@@ -55,7 +56,7 @@ class Pacman(Entity):
     # AI code will be called in here
     def getValidKey(self):
         # self.agent.search(self.node)
-        goal = self.agent.makeGoal()
+        goal = self.agent.makeGoal(Node(16, 512))
         self.agent.astarSearch(self.node, goal)
         direction = self.agent.transitionStep()
         print(f"direction: {direction}")

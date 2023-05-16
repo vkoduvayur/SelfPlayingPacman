@@ -11,6 +11,7 @@ from text import TextGroup
 from sprites import LifeSprites
 from sprites import MazeSprites
 from mazedata import MazeData
+from nodes import Node
 
 class GameController(object):
     def __init__(self):
@@ -72,8 +73,12 @@ class GameController(object):
         self.ghosts.inky.startNode.denyAccess(RIGHT, self.ghosts.inky)
         self.ghosts.clyde.startNode.denyAccess(LEFT, self.ghosts.clyde)
         self.mazedata.obj.denyGhostsAccess(self.ghosts, self.nodes)
-        goal = self.pacman.agent.makeGoal()
+        # testing A* search
+        self.pacman.agent.getMazeNodes(self.nodes)
+        goal = self.pacman.agent.makeGoal(Node(16, 512))
         self.pacman.agent.astarSearch(self.pacman.node, goal)
+        self.pacman.agent.getPellets(self.pellets)
+        self.pacman.agent.getGhosts(self.ghosts)
 
     def startGame_old(self):      
         self.mazedata.loadMaze(self.level)#######

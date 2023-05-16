@@ -12,6 +12,9 @@ class Agent():
         # holds all nodes Pacman has ever visited
         self.visited = set()
         self.goal = None
+        self.maze_nodes = None
+        self.pellets = None
+        self.ghosts = None
 
         # Actions are up, down, left, right, which are in constants.py
         # for node to be a goal, we need to know if it contains a pellet
@@ -20,8 +23,9 @@ class Agent():
         self.f.write("init agent\n")
         self.f.close()
 
-    def makeGoal(self):
-        self.goal = Node(16, 512)
+    def makeGoal(self, node):
+        node = self.maze_nodes.nodesLUT[(node.position.x, node.position.y)]
+        self.goal = node
         return self.goal
 
     def astarSearch(self, init_state, goal):
@@ -43,7 +47,6 @@ class Agent():
             # self.f.write(f"current: {current}\n")
 
             if current.position == self.goal.position:
-                self.goal = current
                 break
 
             for direction, next in current.neighbors.items():
@@ -64,16 +67,29 @@ class Agent():
         current = self.goal
         self.f.write(f" cost to goal: {cost_so_far[self.goal]}\n")
         path = []
+        self.f.write(f"nodes on path (from goal to init_state):\n")
         while current.position != init_state.position:
+            self.f.write(f"current: {current}\n")
             dir = -came_from[current]
             path.append(dir)
             current = current.neighbors[came_from[current]] # came_from holds directions, came_from[current] holds direction taken to get to current
-        path.reverse() # path from Pacman's position to goal
-        msg = f"path: {path}\n"
+        self.f.write(f"current: {current}\n")
+        path.reverse() # path from Pacman's position to goals
+        msg = f"path (from init_state to goal): {path}\n"
         msg = self.directions(msg)
         self.f.write(msg)
         # transition model returns the path taken to reach the goal
         self.transition_model = path
+
+    # gets the maze nodes
+    def getMazeNodes(self, maze_nodes):
+        self.maze_nodes = maze_nodes
+
+    def getPellets(self, pellets):
+        self.pellets = pellets
+
+    def getGhosts(self, ghosts):
+        self.ghosts = ghosts
 
     '''STOP = 0
     UP = 1
@@ -171,7 +187,7 @@ class Agent():
     def transitionStep(self):
         print("Enter transitionStep()")
         if len(self.transition_model) > 0:
-            self.direction = self.transition_model.pop()
+            self.direction = self.transition_model.pop(0)
             msg = f"self.direction: {self.direction}"
             msg = self.directions(msg)
             print(msg)
