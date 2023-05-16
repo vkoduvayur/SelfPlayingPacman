@@ -72,7 +72,8 @@ class GameController(object):
         self.ghosts.inky.startNode.denyAccess(RIGHT, self.ghosts.inky)
         self.ghosts.clyde.startNode.denyAccess(LEFT, self.ghosts.clyde)
         self.mazedata.obj.denyGhostsAccess(self.ghosts, self.nodes)
-        self.pacman.agent.astarSearch(self.pacman.node)
+        goal = self.pacman.agent.makeGoal()
+        self.pacman.agent.astarSearch(self.pacman.node, goal)
 
     def startGame_old(self):      
         self.mazedata.loadMaze(self.level)#######

@@ -22,11 +22,13 @@ class Agent():
 
     def makeGoal(self):
         self.goal = Node(16, 512)
+        return self.goal
 
-    def astarSearch(self, init_state):
+    def astarSearch(self, init_state, goal):
+        self.goal = goal
         now = self.startRecord("astarSearch")
         self.f.write(f"initial state: {init_state}\n")
-        self.makeGoal()
+        self.f.write(f"goal state: {self.goal}\n")
         count = 0
         frontier = queue.PriorityQueue()
         frontier.put((0, count, init_state))
@@ -38,7 +40,7 @@ class Agent():
 
         while not frontier.empty():
             current = frontier.get()[2]
-            self.f.write(f"current: {current}\n")
+            # self.f.write(f"current: {current}\n")
 
             if current.position == self.goal.position:
                 self.goal = current
@@ -50,8 +52,8 @@ class Agent():
                     if next not in cost_so_far or new_cost < cost_so_far[next]:
                         cost_so_far[next] = new_cost
                         priority = new_cost + self.manhattanDistance(self.goal, next)
-                        self.f.write(f"next node: {next}\n")
-                        self.f.write(f"priority: {priority}\n")
+                        # self.f.write(f"next node: {next}\n")
+                        # self.f.write(f"priority: {priority}\n")
                         frontier.put((priority, count, next))
                         count += 1
                         came_from[next] = -direction
@@ -70,6 +72,8 @@ class Agent():
         msg = f"path: {path}\n"
         msg = self.directions(msg)
         self.f.write(msg)
+        # transition model returns the path taken to reach the goal
+        self.transition_model = path
 
     '''STOP = 0
     UP = 1
@@ -165,9 +169,10 @@ class Agent():
 
     # retrieve and remove the next step from the transition model
     def transitionStep(self):
-        nextStep = None
+        print("Enter transitionStep()")
         if len(self.transition_model) > 0:
-            nextStep = self.transition_model.pop()
-        else:
-            nextStep = self.direction
-        return nextStep
+            self.direction = self.transition_model.pop()
+            msg = f"self.direction: {self.direction}"
+            msg = self.directions(msg)
+            print(msg)
+        return self.direction # self.direction saves direction in agent
