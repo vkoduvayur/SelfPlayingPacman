@@ -1,3 +1,5 @@
+import random
+
 from constants import *
 import queue
 from datetime import datetime
@@ -23,12 +25,34 @@ class Agent():
         self.f.write("init agent\n")
         self.f.close()
 
+    # makes a static goal
     def makeGoal(self, node):
         node = self.maze_nodes.nodesLUT[(node.position.x, node.position.y)]
         self.goal = node
         return self.goal
 
+    # gets a random goal based on pellets
+    # TODO: add code to choose a node that avoids the ghosts
+    def getRandNodeGoal(self, init_state):
+        # print("Entering getRandNodeGoal()")
+        goal = None
+        if self.goal is None or self.goal.position == init_state.position:
+            # no 'None' inside maze nodes
+            if self.goal is None:
+                key, goal = random.choice(list(self.maze_nodes.nodesLUT.items()))
+                # print(f"if none goal: {goal}")
+                self.goal = goal
+                # print(f"if none self.goal: {self.goal}")
+            # could randomly choose same goal position, do a loop until it produces a different goal position
+            while self.goal.position == init_state.position:
+                key, goal = random.choice(list(self.maze_nodes.nodesLUT.items()))
+                # print(f"if none goal: {goal}")
+                self.goal = goal
+        goal = self.goal
+        return goal
+
     def astarSearch(self, init_state, goal):
+        self.initial_state = init_state
         self.goal = goal
         now = self.startRecord("astarSearch")
         self.f.write(f"initial state: {init_state}\n")
@@ -128,7 +152,7 @@ class Agent():
                 for direction, next in current.neighbors.items():
                     self.f.write(f"next: {next}\n")
                     self.f.write(f"direction: {direction}\n")
-                    #print(self.visited)
+                    ## print(self.visited)
                     # self.direction = direction
                     neighbors = queue.PriorityQueue()
                     # put opposite direction in the next node before putting it into frontier
@@ -185,10 +209,10 @@ class Agent():
 
     # retrieve and remove the next step from the transition model
     def transitionStep(self):
-        print("Enter transitionStep()")
+        # print("Enter transitionStep()")
         if len(self.transition_model) > 0:
             self.direction = self.transition_model.pop(0)
             msg = f"self.direction: {self.direction}"
             msg = self.directions(msg)
-            print(msg)
+            # print(msg)
         return self.direction # self.direction saves direction in agent
